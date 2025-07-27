@@ -1,4 +1,4 @@
-package shared;
+package playerconnect.shared;
 
 import java.io.IOException;
 
