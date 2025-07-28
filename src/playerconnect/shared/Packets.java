@@ -5,9 +5,12 @@ import java.io.IOException;
 import arc.func.Prov;
 import arc.net.DcReason;
 import arc.struct.ArrayMap;
+import arc.struct.Seq;
 import arc.util.ArcRuntimeException;
 import arc.util.io.ByteBufferInput;
 import arc.util.io.ByteBufferOutput;
+import arc.util.serialization.Json;
+import mindustry.io.JsonIO;
 
 public class Packets {
     public static final byte id = -4;
@@ -26,6 +29,7 @@ public class Packets {
         register(MessagePacket::new);
         register(Message2Packet::new);
         register(PopupPacket::new);
+        register(StatsPacket::new);
     }
 
     public static <T extends Packet> void register(Prov<T> cons) {
@@ -244,6 +248,39 @@ public class Packets {
         public void write(ByteBufferOutput write) {
             write.writeByte(message.ordinal());
         }
+    }
+
+    public static class StatsPacket extends Packet {
+        public StatsPacketData data;
+
+        public void read(ByteBufferInput read) {
+            try {
+                data = JsonIO.read(StatsPacketData.class, read.readUTF());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public void write(ByteBufferOutput write) {
+            try {
+                write.writeUTF(JsonIO.write(data));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static class StatsPacketData {
+        public Seq<StatsPacketPlayerData> players;
+        public String mapName;
+        public String name;
+        public String gamemode;
+        public Seq<String> mods;
+    }
+
+    public static class StatsPacketPlayerData {
+        public String name;
+        public String locale;
     }
 
     public static class PopupPacket extends MessagePacket {
