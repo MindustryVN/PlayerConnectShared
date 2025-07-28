@@ -273,6 +273,7 @@ public class Packets {
     public static class StatsPacketData {
         public Seq<StatsPacketPlayerData> players;
         public String mapName;
+        public String roomId;
         public String name;
         public String gamemode;
         public Seq<String> mods;
