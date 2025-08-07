@@ -253,10 +253,12 @@ public class Packets {
     }
 
     public static class StatsPacket extends Packet {
+        public String roomId;
         public RoomStats data;
 
         public void read(ByteBufferInput read) {
             try {
+                roomId = read.readUTF();
                 data = JsonIO.read(RoomStats.class, read.readUTF());
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -265,6 +267,7 @@ public class Packets {
 
         public void write(ByteBufferOutput write) {
             try {
+                write.writeUTF(roomId);
                 write.writeUTF(JsonIO.write(data));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -275,7 +278,6 @@ public class Packets {
     public static class RoomStats {
         public Seq<RoomPlayer> players = new Seq<>();
         public String mapName = "";
-        public String roomId = "";
         public String name = "";
         public String gamemode = "";
         public Seq<String> mods = new Seq<>();
