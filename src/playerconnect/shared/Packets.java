@@ -9,7 +9,6 @@ import arc.struct.Seq;
 import arc.util.ArcRuntimeException;
 import arc.util.io.ByteBufferInput;
 import arc.util.io.ByteBufferOutput;
-import arc.util.serialization.Json;
 import mindustry.io.JsonIO;
 
 public class Packets {
@@ -274,17 +273,17 @@ public class Packets {
     }
 
     public static class RoomStats {
-        public Seq<RoomPlayer> players;
-        public String mapName;
-        public String roomId;
-        public String name;
-        public String gamemode;
-        public Seq<String> mods;
+        public Seq<RoomPlayer> players = new Seq<>();
+        public String mapName = "";
+        public String roomId = "";
+        public String name = "";
+        public String gamemode = "";
+        public Seq<String> mods = new Seq<>();
     }
 
     public static class RoomPlayer {
-        public String name;
-        public String locale;
+        public String name = "";
+        public String locale = "";
     }
 
     public static class PopupPacket extends MessagePacket {
