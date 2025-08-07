@@ -137,13 +137,13 @@ public class Packets {
 
     public static class RoomCreationRequestPacket extends Packet {
         public String version;
-        public StatsPacketData data;
+        public RoomStats data;
 
         public void read(ByteBufferInput read) {
             if (read.buffer.hasRemaining()) {
                 try {
                     version = read.readUTF();
-                    data = JsonIO.read(StatsPacketData.class, read.readUTF());
+                    data = JsonIO.read(RoomStats.class, read.readUTF());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -254,11 +254,11 @@ public class Packets {
     }
 
     public static class StatsPacket extends Packet {
-        public StatsPacketData data;
+        public RoomStats data;
 
         public void read(ByteBufferInput read) {
             try {
-                data = JsonIO.read(StatsPacketData.class, read.readUTF());
+                data = JsonIO.read(RoomStats.class, read.readUTF());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -273,8 +273,8 @@ public class Packets {
         }
     }
 
-    public static class StatsPacketData {
-        public Seq<StatsPacketPlayerData> players;
+    public static class RoomStats {
+        public Seq<RoomPlayer> players;
         public String mapName;
         public String roomId;
         public String name;
@@ -282,7 +282,7 @@ public class Packets {
         public Seq<String> mods;
     }
 
-    public static class StatsPacketPlayerData {
+    public static class RoomPlayer {
         public String name;
         public String locale;
     }
