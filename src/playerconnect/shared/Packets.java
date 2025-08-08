@@ -210,7 +210,28 @@ public class Packets {
         }
     }
 
-    public static class RoomJoinPacket extends RoomLinkPacket {
+    public static class RoomJoinPacket extends Packet {
+        public String password;
+
+        public String roomId = null;
+
+        public void read(ByteBufferInput read) {
+            try {
+                roomId = read.readUTF();
+                password = read.readUTF();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public void write(ByteBufferOutput write) {
+            try {
+                write.writeUTF(roomId);
+                write.writeUTF(password);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public static class MessagePacket extends Packet {
