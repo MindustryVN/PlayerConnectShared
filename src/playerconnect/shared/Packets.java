@@ -210,11 +210,10 @@ public class Packets {
         }
     }
 
-    public static class RoomJoinPacket extends Packet {
+    public static class RoomJoinPacket extends RoomLinkPacket {
         public String password;
 
-        public String roomId = null;
-
+        @Override
         public void read(ByteBufferInput read) {
             try {
                 roomId = read.readUTF();
@@ -224,6 +223,7 @@ public class Packets {
             }
         }
 
+        @Override
         public void write(ByteBufferOutput write) {
             try {
                 write.writeUTF(roomId);
