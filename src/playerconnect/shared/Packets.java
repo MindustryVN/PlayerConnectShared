@@ -136,12 +136,14 @@ public class Packets {
 
     public static class RoomCreationRequestPacket extends Packet {
         public String version;
+        public String password;
         public RoomStats data;
 
         public void read(ByteBufferInput read) {
             if (read.buffer.hasRemaining()) {
                 try {
                     version = read.readUTF();
+                    password = read.readUTF();
                     data = JsonIO.read(RoomStats.class, read.readUTF());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -152,6 +154,7 @@ public class Packets {
         public void write(ByteBufferOutput write) {
             try {
                 write.writeUTF(version);
+                write.writeUTF(password);
                 write.writeUTF(JsonIO.write(data));
             } catch (Exception e) {
                 throw new RuntimeException(e);
