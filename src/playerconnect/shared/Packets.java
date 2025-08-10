@@ -305,6 +305,8 @@ public class Packets {
         public String name = "";
         public String gamemode = "";
         public Seq<String> mods = new Seq<>();
+        public String locale;
+        public String version;
     }
 
     public static class RoomPlayer {
